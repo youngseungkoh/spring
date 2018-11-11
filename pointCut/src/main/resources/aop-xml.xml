@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<context:component-scan base-package="com.example.demo.aop.xml.step1"></context:component-scan>
+	
+	<!-- AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut(); 를 bean으로 등록 -->
+	<!-- 저 아래  <aop:pointcut expression="" id=""/> 태그로 대신할 수 있다.-->
+	<!-- 아래 value 값만 쬐끔 바꾸는 것 만으로도 수백개의 메서드에 Advice를 적용했다, 적용하지 않았다를 변경할 수 있다.-->
+	<!--
+	<bean id="pointcut"
+		  class="org.springframework.aop.aspectj.AspectJExpressionPointcut">
+			<property name="expression"
+					  value="execution(int *(..))"/>
+	</bean>
+	-->
+	
+
+	<!-- bean 컨테이너에 있는 조건이 맞는 모든 객체에 advice를 weaving -->
+	<aop:config>
+		<!-- 아래의 <aop:ponintcut> 태그는 AspectJExpressionPointcut 객체를 Bean 컨테이너에 등록한다. -->
+		<aop:pointcut expression="execution(int *(..))" id="pointcut"/>
+		<aop:advisor advice-ref="myAdvice"
+					 pointcut-ref="pointcut"/>
+	</aop:config>
+</beans>
